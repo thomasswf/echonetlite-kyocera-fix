@@ -1,0 +1,17 @@
+{
+  "domain": "echonetlite",
+  "name": "ECHONET Lite",
+  "issue_tracker": "https://github.com/scottyphillips/echonetlite_homeassistant/issues",
+  "config_flow": true,
+  "documentation": "https://www.github.com/scottyphillips/echonetlite_homeassistant",
+  "requirements": [
+    "pychonet @ https://github.com/samqixin/pychonet/releases/download/R-rev3-fix/pychonet-2.6.18.dev4-py3-none-any.whl"
+  ],
+  "dependencies": [],
+  "codeowners": [
+    "@scottyphillips",
+    "@nao-pon"
+  ],
+  "version":  "3.9.0",
+  "iot_class": "local_polling"
+}
