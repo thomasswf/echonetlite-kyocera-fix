@@ -5,6 +5,15 @@
 from homeassistant.const import CONF_NAME, CONF_ICON
 from pychonet.lib.epc_functions import _int
 
+
+def _raw_int(edt, _options=None):
+    """Decode an undocumented property as a raw unsigned integer.
+
+    pychonet calls EPC functions as func(edt, options), so the options
+    argument must be accepted even when unused.
+    """
+    return int.from_bytes(edt, "big", signed=False)
+
 # Empirically calibrated on a real Enerezza Plus unit (2026-11-23),
 # verified against raw ECHONET Lite packets (EPC 0xF0 EDT values):
 # 0x01: "Auto-Sell (売電モード)"    - confirmed from raw packet capture
@@ -38,21 +47,21 @@ QUIRKS = {
     # Exposed as raw integer sensors for calibration (are any of these the
     # Green vs Full Green distinction that 0xF0 cannot express?).
     0xF1: { # Kyocera user-defined property 2 (undocumented)
-        "EPC_FUNCTION": [_int],
+        "EPC_FUNCTION": [_raw_int, None],
         "ENL_OP_CODE": {
             CONF_NAME: "User property 0xF1",
             CONF_ICON: "mdi:help-circle-outline",
         },
     },
     0xF2: { # Kyocera user-defined property 3 (undocumented)
-        "EPC_FUNCTION": [_int],
+        "EPC_FUNCTION": [_raw_int, None],
         "ENL_OP_CODE": {
             CONF_NAME: "User property 0xF2",
             CONF_ICON: "mdi:help-circle-outline",
         },
     },
     0xF3: { # Kyocera user-defined property 4 (undocumented)
-        "EPC_FUNCTION": [_int],
+        "EPC_FUNCTION": [_raw_int, None],
         "ENL_OP_CODE": {
             CONF_NAME: "User property 0xF3",
             CONF_ICON: "mdi:help-circle-outline",
