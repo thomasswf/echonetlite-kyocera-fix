@@ -40,6 +40,7 @@ from .const import (
     TYPE_NUMBER,
     SERVICE_SET_ON_TIMER_TIME,
     SERVICE_SET_INT_1B,
+    SERVICE_SET_INT_8B,
     CONF_FORCE_POLLING,
     CONF_ENABLE_SUPER_ENERGY,
     TYPE_DATA_DICT,
@@ -132,6 +133,17 @@ async def async_setup_entry(hass, config, async_add_entities, discovery_info=Non
                                 "async_" + service_name,
                             )
                         elif service_name == SERVICE_SET_INT_1B:
+                            platform.async_register_entity_service(
+                                service_name,
+                                {
+                                    vol.Required("value"): cv.positive_int,
+                                    vol.Optional(
+                                        "epc", default=op_code
+                                    ): cv.positive_int,
+                                },
+                                "async_" + service_name,
+                            )
+                        elif service_name == SERVICE_SET_INT_8B:
                             platform.async_register_entity_service(
                                 service_name,
                                 {
@@ -404,6 +416,20 @@ class EchonetSensor(SensorEntity):
         if epc:
             value = int(value)
             if await self._connector._instance.setMessage(epc, value):
+                pass
+            else:
+                raise InvalidStateError(
+                    "The state setting is not supported or is an invalid value."
+                )
+        else:
+            raise NoEntitySpecifiedError(
+                "The required parameter EPC has not been specified."
+            )
+
+    async def async_set_value_int_8b(self, value, epc=None):
+        if epc:
+            mes = {"EPC": epc, "PDC": 0x08, "EDT": int(value)}
+            if await self._connector._instance.setMessages([mes]):
                 pass
             else:
                 raise InvalidStateError(

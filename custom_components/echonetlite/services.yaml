@@ -28,3 +28,17 @@ set_value_int_1b:
     entity_id:
       description: 'Integer sensor entity ID.'
       example: '"sensor.echonetlite_set_value_of_hot_water_temperature"'
+set_value_int_8b:
+  description: 'Sets the specified sensor entity to an 8-byte integer value.'
+  target:
+    entity:
+      domain: sensor
+      integration: echonetlite
+  fields:
+    value:
+      description: 'Valid 8-byte integer value for the specified entity.'
+      example: '42'
+      required: true
+    entity_id:
+      description: 'Integer sensor entity ID.'
+      example: '"sensor.echonetlite_user_property_0xf3"'
