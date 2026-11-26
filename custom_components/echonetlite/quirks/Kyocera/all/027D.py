@@ -30,5 +30,32 @@ QUIRKS = {
             CONF_NAME: "Special Operation mode setting",
             CONF_ICON: "mdi:format-list-bulleted",
         },
-    }
+    },
+    # Undocumented user-defined properties, confirmed present on a real
+    # Enerezza Plus via its self-declared property maps (2026-11-26):
+    # Get map (0x9F) includes 0xF0-0xF3; Set map (0x9E) includes 0xF0-0xF3;
+    # status-change announcement map (0x9D) includes 0xF1 and 0xF2.
+    # Exposed as raw integer sensors for calibration (are any of these the
+    # Green vs Full Green distinction that 0xF0 cannot express?).
+    0xF1: { # Kyocera user-defined property 2 (undocumented)
+        "EPC_FUNCTION": [_int],
+        "ENL_OP_CODE": {
+            CONF_NAME: "User property 0xF1",
+            CONF_ICON: "mdi:help-circle-outline",
+        },
+    },
+    0xF2: { # Kyocera user-defined property 3 (undocumented)
+        "EPC_FUNCTION": [_int],
+        "ENL_OP_CODE": {
+            CONF_NAME: "User property 0xF2",
+            CONF_ICON: "mdi:help-circle-outline",
+        },
+    },
+    0xF3: { # Kyocera user-defined property 4 (undocumented)
+        "EPC_FUNCTION": [_int],
+        "ENL_OP_CODE": {
+            CONF_NAME: "User property 0xF3",
+            CONF_ICON: "mdi:help-circle-outline",
+        },
+    },
 }
